@@ -4,15 +4,13 @@ define('ENV', 'asd_local');
 
 if (ENV == 'asd_local') {
 
-    define('APP_URL', 'https://b569-2406-b400-d11-9862-5360-3f1d-6fe2-e1f4.ngrok-free.app/projects/webflow_applications/webflow_collections_ui/dist/app/');
+    define('APP_URL', 'https://b569-2406-b400-d11-9862-5360-3f1d-6fe2-e1f4.ngrok-free.app/projects/webflow_manage_redirection_app/');
 
-    define('HOME_PAGE_URL', 'https://9fa0-2406-b400-d11-9862-2eda-b023-cb7d-b778.ngrok-free.app/projects/webflow_applications/redirect_management_app/manageRedirect.php');
+    define('HOME_PAGE_URL', 'https://9fa0-2406-b400-d11-9862-2eda-b023-cb7d-b778.ngrok-free.app/projects/webflow_manage_redirection_app/manageRedirect.php');
 
     define('CLIENT_ID', '0985dcf52516b9eb8ca416dac466171b9f0ceafa3209d11359027e6a0571dd71');
 
     define('CLIENT_SECRET', '2e8ecadb7f836979aa90d093bf34b95059e6d47fe23a7e578e115f39a8827e00');
-
-    define('UPLOAD_PATH', 'https://3c6d-2406-b400-d11-9862-bb4c-48fa-b7f1-71d3.ngrok-free.app/projects/webflow_collections_app/app/');
 }
 
 if (ENV == 'rp_local') {

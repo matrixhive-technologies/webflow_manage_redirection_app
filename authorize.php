@@ -8,6 +8,7 @@ try {
     # Get the Authorization Code.
     if (isset($_GET['code'])) {
         $code = $_GET['code'];
+
         $params = [
             'client_id'     => CLIENT_ID,
             'client_secret' => CLIENT_SECRET,
@@ -39,7 +40,6 @@ try {
 
             if (isset($responseArr['access_token'])) {
                 $_SESSION['access_token'] = $responseArr['access_token'];
-
                 header('Location: ' . HOME_PAGE_URL);
             }
         }
