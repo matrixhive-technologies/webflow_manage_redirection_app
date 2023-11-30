@@ -1,5 +1,4 @@
 <?php
-
 header('ngrok-skip-browser-warning', 1233);
 error_reporting(1);
 ini_set('display_errors', true);
