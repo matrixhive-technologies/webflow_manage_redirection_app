@@ -230,7 +230,8 @@ $(document).ready(function () {
           // alert(response);
           console.log("JSON.parse(response)", response.code);
           if (response.code == 200) {
-            dataTable.ajax.reload();
+            getCollectionItems(collectionId);
+            // dataTable.ajax.reload();
             // dataTable.ajax.reload(null, false);
             // dataTable.fnDraw();
 
