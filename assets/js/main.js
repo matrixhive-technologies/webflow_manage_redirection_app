@@ -5,6 +5,8 @@ $(document).ready(function () {
   let siteId = null;
   let collectionId = null;
   let createCollectionData = {};
+  let createCollectionFieldData = {};
+
   // Initialize an empty DataTable
   var dataTable = $("#collectionEditor").DataTable({
     columns: [
@@ -78,7 +80,7 @@ $(document).ready(function () {
       endPoint: "sites/" + siteId + "/collections",
       params: siteId,
     };
-
+    let slugToCheck = "redirect-management";
     $.ajax({
       url: appURL + "CallApi.php",
       type: "POST",
@@ -86,16 +88,30 @@ $(document).ready(function () {
       success: function (data) {
         console.log("list of collections", data.collections);
 
-        for (var i = 0; i < data.collections.length; i++) {
-          if (data.collections[i].slug == "redirect-management") {
-            collectionId = data.collections[i].id;
-            // get the collection items
-            getCollectionItems(collectionId);
-          } else {
-            // create the collection with above slug
-            let asad = createCollection(siteId);
-            console.log("created col id", asad);
-          }
+        var result = $.grep(data.collections, function (obj) {
+          return obj.slug === slugToCheck;
+        });
+
+        console.log("result", result);
+
+        if (result.length > 0) {
+          collectionId = result[0].id;
+          // get the collection items
+          getCollectionItems(collectionId);
+          console.log("String exists in the array of objects");
+        } else {
+          dataTable.clear().draw();
+
+          createCollection(siteId, function (createdCollectionId) {
+            if (createdCollectionId) {
+              // get the collection items using the created collection ID
+              console.log("Collection created with ID:", createdCollectionId);
+              createCollectionField(createdCollectionId);
+            } else {
+              console.log("Failed to create the collection");
+              return false;
+            }
+          });
         }
       },
       error: function (xhr, status, error) {
@@ -136,7 +152,7 @@ $(document).ready(function () {
     });
   }
 
-  function createCollection(siteId) {
+  function createCollection(siteId, callback) {
     createCollectionData = {
       displayName: "Redirect Managements",
       singularName: "Redirect Management",
@@ -158,10 +174,11 @@ $(document).ready(function () {
         if (response.code == "duplicate_collection") {
           return false;
         }
+        callback(response.id);
 
-        if (response && response.id) {
-          return response.id;
-        }
+        // if (response && response.id) {
+        //   return response.id;
+        // }
       },
       error: function (xhr, status, error) {
         console.error("Error:", error);
@@ -169,7 +186,34 @@ $(document).ready(function () {
     });
   }
 
-  function createCollectionItem(collectionId) {}
+  function createCollectionField(collectionId) {
+    console.log("collection ID", collectionId);
+    let fieldDisplayNames = ["From", "To"];
+    for (let i = 0; i < fieldDisplayNames.length; i++) {
+      createCollectionFieldData = {
+        isRequired: true,
+        type: "PlainText",
+        displayName: fieldDisplayNames[i],
+        helpText: "Enter the " + fieldDisplayNames[i] + " URL here.",
+      };
+      let data = {
+        endPoint: "collections/" + collectionId + "/fields",
+        method: "POST",
+        params: JSON.stringify(createCollectionFieldData),
+      };
+      $.ajax({
+        url: appURL + "CallApi.php",
+        type: "POST",
+        data: data,
+        success: function (data) {
+          console.log("create collection fields", data);
+        },
+        error: function (xhr, status, error) {
+          console.error("Error:", error);
+        },
+      });
+    }
+  }
 
   // Delete the item list
   $("#collectionEditor tbody").on("click", ".delete-item", function () {
