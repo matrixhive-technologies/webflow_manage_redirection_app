@@ -3,7 +3,6 @@
 error_reporting(1);
 ini_set('display_errors', true);
 require_once('config/app.php');
-require_once('config/database.php');
 
 
 class Api
@@ -17,7 +16,6 @@ class Api
 
     public function __construct()
     {
-        global $connection;
     }
 
     public function setEndPoint($endPoint)
@@ -56,7 +54,12 @@ class Api
             } else if ($this->method == 'POST') {
                 $result = $this->post();
                 $this->response = $result;
-            }
+            } 
+            else if ($this->method == $_SERVER['REQUEST_METHOD']) {
+                echo 'dete'; die;
+                $result = $this->delete();
+                $this->response = $result;
+            } 
         } catch (Exception $e) {
             $this->response = json_encode(['message' => $e->getMessage()]);
         }
@@ -79,11 +82,6 @@ class Api
 
     public function get()
     {
-        $cachedResponse = $this->getCachedResponse();
-        if ($cachedResponse) {
-            return $cachedResponse;
-        }
-
         $baseUrl = $this->apiBaseUrl;
         $url = $baseUrl . $this->endPoint;
 
@@ -104,15 +102,11 @@ class Api
             echo 'Error:' . curl_error($ch);
         }
         curl_close($ch);
-        $this->cacheResult($result);
         return $result;
     }
 
     public function patch()
     {
-
-        $this->deleteCache();
-
         $baseUrl = $this->apiBaseUrl;
         $url = $baseUrl . $this->endPoint;
 
@@ -140,12 +134,6 @@ class Api
 
     public function post()
     {
-        $cachedResponse = $this->getCachedResponse();
-        if ($cachedResponse) {
-            return $cachedResponse;
-        }
-
-
         $baseUrl = $this->apiBaseUrl;
         $url = $baseUrl . $this->endPoint;
 
@@ -169,78 +157,32 @@ class Api
         }
         curl_close($ch);
 
-        $this->cacheResult($result);
         return $result;
     }
 
-
-    public function getCollectionID()
+    public function delete()
     {
-        $collectionEndpoint = explode("/", $this->endPoint);
-        return !empty($collectionEndpoint) && isset($collectionEndpoint[1]) && $collectionEndpoint[0] == 'collections' ? $collectionEndpoint[1] : '';
-    }
+        echo  $this->method; die;
+        $baseUrl = $this->apiBaseUrl;
+        $url = $baseUrl . $this->endPoint;
 
-    public function getSiteID()
-    {
-        $siteEndpoint = explode("/", $this->endPoint);
-        return !empty($siteEndpoint) && isset($siteEndpoint[1]) && $siteEndpoint[0] == 'sites'  ? $siteEndpoint[1] : '';
-    }
+        $ch = curl_init();
 
-    public function getUserID()
-    {
-        return $_SESSION['LoggedInUser']['id'];
-    }
-
-    public function getCacheToken()
-    {
-        return md5($this->endPoint . $this->params);
-    }
-
-    public function getCachedResponse()
-    {
-        global $connection;
-
-        $cachedData = "SELECT * from cached_results WHERE `cache_token`='" . $this->getCacheToken() . "'";
-
-        $row = mysqli_fetch_assoc(mysqli_query($connection, $cachedData));
-
-        return $row['response'];
-    }
-
-    public function cacheResult($result)
-    {
-        global $connection;
-        $userId = $this->getUserID();
-        $cacheToken = $this->getCacheToken();
-        $siteId = $this->getSiteID();
-        $collectionId = $this->getCollectionID();
-
-        $cachData = "INSERT INTO `cached_results`(`user_id`, `site_id`, `collection_id`, `cache_token`, `response`) 
-                            VALUES (
-                            '" . $userId . "',
-                            '" . $siteId . "',
-                            '" . $collectionId . "',
-                            '" . $cacheToken . "',
-                            '" . mysqli_real_escape_string($connection, $result) . "'
-                            )";
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $this->method);
 
 
-        return mysqli_query($connection, $cachData);
-    }
+        $headers = array();
+        $headers[] = 'Authorization: Bearer ' . $this->accessToken;
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-    public function deleteCache()
-    {
-        global $connection;
-        $userId = $this->getUserID();
-        $collectionId = $this->getCollectionID();
+        $result = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+        curl_close($ch);
 
-        $deleteCache = "DELETE FROM cached_results WHERE 
-            user_id= '" . $userId . "' 
-            AND
-            collection_id= '" . $collectionId . "'
-            ";
-
-
-        return mysqli_query($connection, $deleteCache);
+        return json_encode($result);
     }
 }

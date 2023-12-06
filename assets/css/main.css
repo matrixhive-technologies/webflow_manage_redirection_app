@@ -1,0 +1,29 @@
+body {
+    background-color: #343a40;
+    color: #fff;
+    padding-top: 56px;
+}
+
+.container {
+    background-color: #454d55;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+#collectionEditor {
+    background-color: #495057;
+    color: #fff;
+}
+
+#collectionEditor th,
+#collectionEditor td {
+    border: 1px solid #343a40;
+    text-align: center;
+    /* Center content in table cells */
+}
+
+.delete-item {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
