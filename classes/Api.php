@@ -54,11 +54,10 @@ class Api
             } else if ($this->method == 'POST') {
                 $result = $this->post();
                 $this->response = $result;
-            } 
-            else if ($this->method == 'DELETE') {
+            } else if ($this->method == 'DELETE') {
                 $result = $this->delete();
                 $this->response = $result;
-            } 
+            }
         } catch (Exception $e) {
             $this->response = json_encode(['message' => $e->getMessage()]);
         }
@@ -181,6 +180,7 @@ class Api
         }
         curl_close($ch);
 
-        return json_encode($result);
+        $asad = ['message' => 'delete done', 'code' => 200];
+        return json_encode($asad);
     }
 }

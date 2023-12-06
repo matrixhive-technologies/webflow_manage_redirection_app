@@ -4,9 +4,9 @@ define('ENV', 'asd_local');
 
 if (ENV == 'asd_local') {
 
-    define('APP_URL', 'https://7702-2406-b400-d11-9862-9d81-7dea-86a4-622d.ngrok-free.app/projects/webflow_manage_redirection_app/');
+    define('APP_URL', 'https://a55d-2406-b400-d11-bc71-584e-394-c08e-57e5.ngrok-free.app/projects/webflow_manage_redirection_app/');
 
-    define('HOME_PAGE_URL', 'https://7702-2406-b400-d11-9862-9d81-7dea-86a4-622d.ngrok-free.app/projects/webflow_manage_redirection_app/manageRedirect.php');
+    define('HOME_PAGE_URL', 'https://a55d-2406-b400-d11-bc71-584e-394-c08e-57e5.ngrok-free.app/projects/webflow_manage_redirection_app/manageRedirect.php');
 
     define('CLIENT_ID', '0985dcf52516b9eb8ca416dac466171b9f0ceafa3209d11359027e6a0571dd71');
 

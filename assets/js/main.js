@@ -227,7 +227,20 @@ $(document).ready(function () {
         type: "POST",
         data: data,
         success: function (response) {
-          dataTable.ajax.reload();
+          // alert(response);
+          console.log("JSON.parse(response)", response.code);
+          if (response.code == 200) {
+            dataTable.ajax.reload();
+            // dataTable.ajax.reload(null, false);
+            // dataTable.fnDraw();
+
+            // dataTable.row($(this).parents("tr")).remove().draw(false);
+            // dataTable.ajax.reload()
+            // dataTable.row($(this).parents("tr")).remove().draw();
+            // dataTable.clear();
+          } else {
+            return false;
+          }
         },
         error: function (xhr, status, error) {
           console.error("Error:", error);
