@@ -55,8 +55,7 @@ class Api
                 $result = $this->post();
                 $this->response = $result;
             } 
-            else if ($this->method == $_SERVER['REQUEST_METHOD']) {
-                echo 'dete'; die;
+            else if ($this->method == 'DELETE') {
                 $result = $this->delete();
                 $this->response = $result;
             } 
@@ -162,7 +161,6 @@ class Api
 
     public function delete()
     {
-        echo  $this->method; die;
         $baseUrl = $this->apiBaseUrl;
         $url = $baseUrl . $this->endPoint;
 

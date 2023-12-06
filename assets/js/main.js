@@ -175,10 +175,6 @@ $(document).ready(function () {
           return false;
         }
         callback(response.id);
-
-        // if (response && response.id) {
-        //   return response.id;
-        // }
       },
       error: function (xhr, status, error) {
         console.error("Error:", error);
@@ -218,18 +214,19 @@ $(document).ready(function () {
   // Delete the item list
   $("#collectionEditor tbody").on("click", ".delete-item", function () {
     let itemId = dataTable.row($(this).parents("tr")).data().id;
+
+    let data = {
+      endPoint: "collections/" + collectionId + "/items/" + itemId,
+      method: "DELETE",
+    };
+
     // Make AJAX call to delete the item
     if (confirm("Are you sure you want to delete this item?")) {
       $.ajax({
         url: appURL + "CallApi.php",
-        type: "DELETE",
-        data: {
-          endPoint: "collections/" + collectionId + "/items/" + itemId,
-          method: "DELETE",
-        },
+        type: "POST",
+        data: data,
         success: function (response) {
-          alert("asad" + response);
-          // dataTable.row($(this).parents("tr")).remove().draw();
           dataTable.ajax.reload();
         },
         error: function (xhr, status, error) {
