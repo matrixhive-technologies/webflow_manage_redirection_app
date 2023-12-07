@@ -72,20 +72,20 @@ require_once('config/app.php');
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="validation-message" style="color: red; margin-bottom: 10px;"></div>
+                    <div class="validation-message" style="color: yellow; margin-bottom: 10px;"></div>
                     <!-- Form for adding a new collection item -->
                     <form id="addItemForm">
                         <div class="form-group">
                             <label for="itemName">Name:</label>
-                            <input type="text" class="form-control" id="itemName" name="name" required>
+                            <input type="text" class="form-control" id="itemName" name="name" placeholder="Enter Item Name..." required>
                         </div>
                         <div class="form-group">
                             <label for="itemFrom">From:</label>
-                            <input type="text" class="form-control" id="itemFrom" name="from" required>
+                            <input type="text" class="form-control" id="itemFrom" name="from" placeholder="Enter OLD URL here...." required>
                         </div>
                         <div class="form-group">
                             <label for="itemTo">To:</label>
-                            <input type="text" class="form-control" id="itemTo" name="to" required>
+                            <input type="text" class="form-control" id="itemTo" name="to" placeholder="Enter NEW URL here...." required>
                         </div>
                         <button type="button" class="btn btn-primary" id="submitItem">Submit</button>
                     </form>
