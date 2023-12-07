@@ -61,3 +61,11 @@ body {
 .dataTables_length label select > option{
   background-color: #454d55 !important;
 }
+
+
+.message {
+  display: block;
+  text-align: center;
+  color: yellow;
+  font-size: 16px; 
+}

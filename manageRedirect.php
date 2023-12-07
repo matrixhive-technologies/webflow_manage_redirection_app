@@ -45,6 +45,7 @@ require_once('config/app.php');
         <div class="d-flex justify-content-end mb-3">
             <button class="btn btn-success add-collection-item" data-toggle="modal" data-target="#addItemModal" style="display: none;">Create Collection Item</button>
         </div>
+        <span class="message text-center"></span>
         <table id="collectionEditor" class="display" style="width:100%">
             <thead>
                 <tr>

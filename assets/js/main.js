@@ -212,7 +212,7 @@ $(document).ready(function () {
     }
   }
 
-  // Delete the item list
+  // Delete the item from the list
   $("#collectionEditor tbody").on("click", ".delete-item", function () {
     let itemId = dataTable.row($(this).parents("tr")).data().id;
 
@@ -229,6 +229,10 @@ $(document).ready(function () {
         data: data,
         success: function (response) {
           if (response.code == 200) {
+            $(".message").html('Collection Item Deleted Successfully.');
+            setTimeout(function() {
+              $(".message").html('');
+            }, 2000)
             getCollectionItems(collectionId);
             dataTable.row($(this).parents("tr")).remove().draw(false);
           } else {
@@ -300,6 +304,10 @@ $(document).ready(function () {
       success: function (response) {
         console.log("Success:", response.id);
         if (response.id) {
+          $(".message").html('Collection Item Created Successfully.');
+          setTimeout(function() {
+            $(".message").html('');
+          }, 2000)
           $("#submitItem").prop("disabled", false);
           $("#addItemModal").modal("hide");
           getCollectionItems(collectionId);
