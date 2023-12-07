@@ -110,8 +110,9 @@ $(document).ready(function () {
 
         console.log("result", result);
         if (result.length > 0) {
-          // Place is fine to call the api? since this block will execute when the redirect management collection is created?
-          // list of pages api to get the page id of 404 page (what if site has no 404 page?)
+          // This Place is fine to call the api? since this block will execute when the redirect management collection is created eventhough no from and to urls are being set here?
+
+          // list of pages api to get the page id of 404 page (what if site has no 404 page and how we can get the 404page id? how we can be sure about the slug?)
 
           // call the register script api with the 404page id with hosted location, hash and version (in development how can i modify hash and version everytime something has changed with the file?)
 

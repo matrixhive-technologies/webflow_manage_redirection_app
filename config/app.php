@@ -11,8 +11,6 @@ if (ENV == 'asd_local') {
     define('CLIENT_ID', '0985dcf52516b9eb8ca416dac466171b9f0ceafa3209d11359027e6a0571dd71');
 
     define('CLIENT_SECRET', '2e8ecadb7f836979aa90d093bf34b95059e6d47fe23a7e578e115f39a8827e00');
-
-    define('APP_NAME', 'Manage Redirection App');
 }
 
 if (ENV == 'rp_local') {
@@ -33,16 +31,19 @@ if (ENV == 'prod') {
     // define('UPLOAD_PATH', 'https://8511-2406-b400-d11-9862-36cb-f62e-2f4-d24.ngrok-free.app/projects/webflow_collections_app/app/');
 
     define('UPLOAD_PATH', 'https://5bd5-2406-b400-d11-9862-2a91-d37f-aae3-8376.ngrok-free.app/plp/cmsadmin/app/');
-}
 
+}
 
 # Common Config
 # Application's Name
-define('APP_NAME', 'Manage Collections Webflow App in PHP');
+define('APP_NAME', 'Manage Redirection App');
+
 # Define the Scopes that your app needs here.
 define('SCOPES', 'assets:read assets:write authorized_user:read cms:read cms:write custom_code:read custom_code:write forms:read forms:write pages:read pages:write sites:read sites:write ecommerce:read ecommerce:write');
+
 # End-point to start the process of Authroization.
 define('AUTHORIZATION_URL', 'https://webflow.com/oauth/authorize');
+
 # Default Response Type.
 define('RESPONSE_TYPE', 'code');
 
