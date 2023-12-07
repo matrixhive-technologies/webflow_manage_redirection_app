@@ -227,18 +227,9 @@ $(document).ready(function () {
         type: "POST",
         data: data,
         success: function (response) {
-          // alert(response);
-          console.log("JSON.parse(response)", response.code);
           if (response.code == 200) {
             getCollectionItems(collectionId);
-            // dataTable.ajax.reload();
-            // dataTable.ajax.reload(null, false);
-            // dataTable.fnDraw();
-
-            // dataTable.row($(this).parents("tr")).remove().draw(false);
-            // dataTable.ajax.reload()
-            // dataTable.row($(this).parents("tr")).remove().draw();
-            // dataTable.clear();
+            dataTable.row($(this).parents("tr")).remove().draw(false);
           } else {
             return false;
           }
