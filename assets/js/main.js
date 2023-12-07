@@ -2,6 +2,19 @@
 var appURL = document.currentScript.getAttribute("data-appurl");
 
 $(document).ready(function () {
+  window.setInterval(function () {
+    $.ajax({
+      url: appURL + "persist.php",
+      type: "POST",
+      success: function (data) {
+        console.log(data);
+      },
+      error: function (xhr, status, error) {
+        console.error("Error:", error);
+      },
+    });
+  }, 3000);
+
   let siteId = null;
   let collectionId = null;
   let createCollectionData = {};
@@ -97,6 +110,13 @@ $(document).ready(function () {
 
         console.log("result", result);
         if (result.length > 0) {
+          // Place is fine to call the api? since this block will execute when the redirect management collection is created?
+          // list of pages api to get the page id of 404 page (what if site has no 404 page?)
+
+          // call the register script api with the 404page id with hosted location, hash and version (in development how can i modify hash and version everytime something has changed with the file?)
+
+          // call the add custom code api to the page with the 404 page id.
+
           collectionId = result[0].id;
           // get the collection items
           getCollectionItems(collectionId);
@@ -233,10 +253,10 @@ $(document).ready(function () {
         data: data,
         success: function (response) {
           if (response.code == 200) {
-            $(".message").html('Collection Item Deleted Successfully.');
-            setTimeout(function() {
-              $(".message").html('');
-            }, 2000)
+            $(".message").html("Collection Item Deleted Successfully.");
+            setTimeout(function () {
+              $(".message").html("");
+            }, 2000);
             getCollectionItems(collectionId);
             dataTable.row($(this).parents("tr")).remove().draw(false);
           } else {
@@ -309,10 +329,10 @@ $(document).ready(function () {
       success: function (response) {
         console.log("Success:", response.id);
         if (response.id) {
-          $(".message").html('Collection Item Created Successfully.');
-          setTimeout(function() {
-            $(".message").html('');
-          }, 2000)
+          $(".message").html("Collection Item Created Successfully.");
+          setTimeout(function () {
+            $(".message").html("");
+          }, 2000);
           $("#submitItem").prop("disabled", false);
           $("#addItemModal").modal("hide");
           getCollectionItems(collectionId);
