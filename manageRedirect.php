@@ -34,7 +34,7 @@ require_once('config/app.php');
     <div class="container mt-3">
         <label for="selectSite">Select Site:</label>
         <select id="selectSite" class="form-control">
-            <option value="">Select Site</option>
+            <option value="" disabled selected>Select Site</option>
         </select>
     </div>
 
@@ -43,7 +43,7 @@ require_once('config/app.php');
     <!-- Collection Editor -->
     <div class="container mt-3">
         <div class="d-flex justify-content-end mb-3">
-            <button class="btn btn-success" data-toggle="modal" data-target="#addItemModal">Create Collection Item</button>
+            <button class="btn btn-success add-collection-item" data-toggle="modal" data-target="#addItemModal" style="display: none;">Create Collection Item</button>
         </div>
         <table id="collectionEditor" class="display" style="width:100%">
             <thead>

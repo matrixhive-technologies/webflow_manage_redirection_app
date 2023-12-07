@@ -73,6 +73,7 @@ $(document).ready(function () {
   // Get the collection for the selected site.
   $("#selectSite").on("change", function () {
     siteId = $(this).val();
+    $(".add-collection-item").css("display", "block");
     getCollection(siteId);
   });
 
