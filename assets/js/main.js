@@ -246,6 +246,7 @@ $(document).ready(function () {
     var validationMessage = $(".validation-message");
     /* Validation starts here */
     if (!$("#itemName").val()) {
+      $("#itemName").focus();
       validationMessage.text("Item Name is required.");
       return;
     } else {
@@ -253,6 +254,7 @@ $(document).ready(function () {
     }
 
     if (!$("#itemFrom").val()) {
+      $("#itemFrom").focus();
       validationMessage.text("From is required.");
       return;
     } else {
@@ -260,6 +262,7 @@ $(document).ready(function () {
     }
 
     if (!$("#itemTo").val()) {
+      $("#itemTo").focus();
       validationMessage.text("To is required.");
       return;
     } else {
@@ -288,7 +291,6 @@ $(document).ready(function () {
       params: JSON.stringify(createdItemData),
       method: "POST",
     };
-
     $.ajax({
       url: appURL + "CallApi.php",
       type: "POST",
@@ -306,5 +308,11 @@ $(document).ready(function () {
         console.error("Error:", error);
       },
     });
+  });
+
+  // Clear the modal popup on re-click
+  $("#addItemModal").on("show.bs.modal", function (e) {
+    $("#addItemForm")[0].reset();
+    $(".validation-message").text("");
   });
 });
