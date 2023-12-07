@@ -70,13 +70,14 @@ $(document).ready(function () {
   }
   listOfSites();
 
-  // Get the collection for the selected site.
+  // Get the list of sites.
   $("#selectSite").on("change", function () {
     siteId = $(this).val();
     $(".add-collection-item").css("display", "block");
     getCollection(siteId);
   });
 
+  // This function is used to get the collections of selected site.
   function getCollection(siteId) {
     let data = {
       endPoint: "sites/" + siteId + "/collections",
@@ -121,6 +122,7 @@ $(document).ready(function () {
     });
   }
 
+  // This function is used to list the items in the collection.
   function getCollectionItems(collectionId) {
     console.log("collection ID", collectionId);
     $.ajax({
@@ -153,6 +155,7 @@ $(document).ready(function () {
     });
   }
 
+  // This function is used to create the 'Redirect Management' collection.
   function createCollection(siteId, callback) {
     createCollectionData = {
       displayName: "Redirect Management",
@@ -183,6 +186,7 @@ $(document).ready(function () {
     });
   }
 
+  // This function is used to create the collection field (From and To Textfields)
   function createCollectionField(collectionId) {
     console.log("collection ID", collectionId);
     let fieldDisplayNames = ["From", "To"];
@@ -246,6 +250,7 @@ $(document).ready(function () {
     }
   });
 
+  // Create the collection item in webflow for the 'Redirect-Management' Collection.
   $("#submitItem").on("click", function () {
     var validationMessage = $(".validation-message");
     /* Validation starts here */
