@@ -292,6 +292,8 @@ $(document).ready(function () {
       params: JSON.stringify(createdItemData),
       method: "POST",
     };
+
+    $("#submitItem").prop("disabled", true);
     $.ajax({
       url: appURL + "CallApi.php",
       type: "POST",
@@ -299,6 +301,7 @@ $(document).ready(function () {
       success: function (response) {
         console.log("Success:", response.id);
         if (response.id) {
+          $("#submitItem").prop("disabled", false);
           $("#addItemModal").modal("hide");
           getCollectionItems(collectionId);
         } else {
@@ -306,6 +309,7 @@ $(document).ready(function () {
         }
       },
       error: function (xhr, status, error) {
+        $("#submitItem").prop("disabled", false);
         console.error("Error:", error);
       },
     });

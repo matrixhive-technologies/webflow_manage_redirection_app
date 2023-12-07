@@ -53,3 +53,7 @@ body {
   background-color: #343a40;
   padding: 15px;
 }
+
+#submitItem:disabled {
+  cursor: not-allowed;
+}
