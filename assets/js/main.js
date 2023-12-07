@@ -240,4 +240,59 @@ $(document).ready(function () {
       });
     }
   });
+
+  // Handle form submission
+  $("#submitItem").on("click", function () {
+    var validationMessage = $(".validation-message");
+    /* Validations */
+    if (!$("#itemName").val()) {
+      validationMessage.text("Item Name is required.");
+      return;
+    } else {
+      validationMessage.text('');
+    }
+
+    if (!$("#itemFrom").val()) {
+      validationMessage.text("From is required.");
+      return;
+    } else {
+      validationMessage.text('');
+    }
+
+    if (!$("#itemTo").val()) {
+      validationMessage.text("To is required.");
+      return;
+    } else {
+      validationMessage.text('');
+    }
+
+    // Get form data
+    let formData = {
+      name: $("#itemName").val(),
+      from: $("#itemFrom").val(),
+      to: $("#itemTo").val(),
+    };
+
+    // Make AJAX request to submit form
+    // $.ajax({
+    //   url: appURL + "YourApiEndpoint.php", // Replace with your API endpoint
+    //   type: "POST",
+    //   data: formData,
+    //   success: function (response) {
+    //     // Handle success response
+    //     console.log("Success:", response);
+
+    //     // You can close the modal if needed
+    //     $("#addItemModal").modal("hide");
+
+    //     // You might want to reload the table data
+    //     // (Assuming you have a function to do that)
+    //     // reloadTableData();
+    //   },
+    //   error: function (xhr, status, error) {
+    //     // Handle error
+    //     console.error("Error:", error);
+    //   },
+    // });
+  });
 });

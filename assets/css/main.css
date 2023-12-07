@@ -1,29 +1,55 @@
 body {
-    background-color: #343a40;
-    color: #fff;
-    padding-top: 56px;
+  background-color: #343a40;
+  color: #fff;
+  padding-top: 56px;
 }
 
 .container {
-    background-color: #454d55;
-    padding: 20px;
-    border-radius: 10px;
-    margin-top: 20px;
+  background-color: #454d55;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
 }
 
 #collectionEditor {
-    background-color: #495057;
-    color: #fff;
+  background-color: #495057;
+  color: #fff;
 }
 
 #collectionEditor th,
 #collectionEditor td {
-    border: 1px solid #343a40;
-    text-align: center;
-    /* Center content in table cells */
+  border: 1px solid #343a40;
+  text-align: center;
 }
 
 .delete-item {
-    background-color: #dc3545;
-    border-color: #dc3545;
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.modal-content {
+  background-color: #495057;
+  color: #ffffff;
+  border: 1px solid #343a40;
+  border-radius: 5px;
+}
+
+.modal-header {
+  border-bottom: 1px solid #343a40;
+  padding: 15px;
+}
+
+.modal-title {
+  color: #ffffff;
+}
+
+.modal-body {
+  background-color: #495057;
+  padding: 15px;
+}
+
+.modal-footer {
+  border-top: 1px solid #343a40;
+  background-color: #343a40;
+  padding: 15px;
 }

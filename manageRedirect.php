@@ -15,6 +15,9 @@ require_once('config/app.php');
     <!-- DataTables JavaScript from CDN -->
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
     <!-- Bootstrap CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
@@ -35,8 +38,13 @@ require_once('config/app.php');
         </select>
     </div>
 
+
+
     <!-- Collection Editor -->
     <div class="container mt-3">
+        <div class="d-flex justify-content-end mb-3">
+            <button class="btn btn-success" data-toggle="modal" data-target="#addItemModal">Create Collection Item</button>
+        </div>
         <table id="collectionEditor" class="display" style="width:100%">
             <thead>
                 <tr>
@@ -52,6 +60,40 @@ require_once('config/app.php');
             </tbody>
         </table>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addItemModal" tabindex="-1" role="dialog" aria-labelledby="addItemModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addItemModalLabel">Create Collection Item</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="validation-message" style="color: red; margin-bottom: 10px;"></div>
+                    <!-- Form for adding a new collection item -->
+                    <form id="addItemForm">
+                        <div class="form-group">
+                            <label for="itemName">Name:</label>
+                            <input type="text" class="form-control" id="itemName" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemFrom">From:</label>
+                            <input type="text" class="form-control" id="itemFrom" name="from" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemTo">To:</label>
+                            <input type="text" class="form-control" id="itemTo" name="to" required>
+                        </div>
+                        <button type="button" class="btn btn-primary" id="submitItem">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 
 </html>
