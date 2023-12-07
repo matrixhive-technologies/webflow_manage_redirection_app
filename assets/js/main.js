@@ -95,7 +95,6 @@ $(document).ready(function () {
         });
 
         console.log("result", result);
-
         if (result.length > 0) {
           collectionId = result[0].id;
           // get the collection items
@@ -106,8 +105,8 @@ $(document).ready(function () {
 
           createCollection(siteId, function (createdCollectionId) {
             if (createdCollectionId) {
-              // get the collection items using the created collection ID
               console.log("Collection created with ID:", createdCollectionId);
+              collectionId = createdCollectionId;
               createCollectionField(createdCollectionId);
             } else {
               console.log("Failed to create the collection");
@@ -156,7 +155,7 @@ $(document).ready(function () {
 
   function createCollection(siteId, callback) {
     createCollectionData = {
-      displayName: "Redirect Managements",
+      displayName: "Redirect Management",
       singularName: "Redirect Management",
     };
     let data = {

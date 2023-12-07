@@ -57,3 +57,7 @@ body {
 #submitItem:disabled {
   cursor: not-allowed;
 }
+
+.dataTables_length label select > option{
+  background-color: #454d55 !important;
+}
