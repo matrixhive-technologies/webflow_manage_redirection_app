@@ -93,6 +93,24 @@ $(document).ready(function () {
   $("#selectSite").on("change", function () {
     siteId = $(this).val();
     $(".add-collection-item").css("display", "block");
+    listSitePages(siteId, function (notFoundPageExists, dashboardPageExists) {
+      console.log("dashboardPageExists from list page", dashboardPageExists);
+      if (notFoundPageExists && dashboardPageExists) {
+        notFoundPageId = notFoundPageExists[0].id;
+        dashboardPageId = dashboardPageExists[0].id;
+        // call the register hosted script api
+        registerScript(siteId, function (registered_scripts) {
+          let pageIds = [notFoundPageId, dashboardPageId];
+          console.log("PageIds", pageIds);
+          console.log("registerScript ID ARRAY", registered_scripts);
+          for (let i = 0; i < pageIds.length; i++) {
+            addCustomCodeToPage(pageIds[i], registered_scripts[i]);
+          }
+        });
+      } else {
+        return false;
+      }
+    });
     getCollection(siteId);
   });
 
@@ -116,31 +134,6 @@ $(document).ready(function () {
 
         console.log("result", result);
         if (result.length > 0) {
-          listSitePages(
-            siteId,
-            function (notFoundPageExists, dashboardPageExists) {
-              console.log(
-                "dashboardPageExists from list page",
-                dashboardPageExists
-              );
-              if (notFoundPageExists && dashboardPageExists) {
-                notFoundPageId = notFoundPageExists[0].id;
-                dashboardPageId = dashboardPageExists[0].id;
-                // call the register hosted script api
-                registerScript(siteId, function (registered_scripts) {
-                  let pageIds = [notFoundPageId, dashboardPageId];
-                  console.log("PageIds", pageIds);
-                  console.log("registerScript ID ARRAY", registered_scripts);
-                  for (let i = 0; i < pageIds.length; i++) {
-                    addCustomCodeToPage(pageIds[i], registered_scripts[i]);
-                  }
-                });
-              } else {
-                return false;
-              }
-            }
-          );
-
           collectionId = result[0].id;
           // get the collection items
           getCollectionItems(collectionId);
