@@ -13,13 +13,19 @@ $(document).ready(function () {
         console.error("Error:", error);
       },
     });
-  }, 3000);
+  }, 30000);
 
   let siteId = null;
   let collectionId = null;
   let createCollectionData = {};
   let createCollectionFieldData = {};
   let createdItemData = {};
+  let addCustomCodeData = {};
+  let notFoundPageId = null;
+  let registerScriptData = {};
+  let notFoundScriptId = null;
+  let dashboardPageId = null;
+  let dashboardScriptId = null;
 
   // Initialize the DataTable
   var dataTable = $("#collectionEditor").DataTable({
@@ -110,13 +116,30 @@ $(document).ready(function () {
 
         console.log("result", result);
         if (result.length > 0) {
-          // This Place is fine to call the api? since this block will execute when the redirect management collection is created eventhough no from and to urls are being set here?
-
-          // list of pages api to get the page id of 404 page (what if site has no 404 page and how we can get the 404page id? how we can be sure about the slug?)
-
-          // call the register script api with the 404page id with hosted location, hash and version (in development how can i modify hash and version everytime something has changed with the file?)
-
-          // call the add custom code api to the page with the 404 page id.
+          listSitePages(
+            siteId,
+            function (notFoundPageExists, dashboardPageExists) {
+              console.log(
+                "dashboardPageExists from list page",
+                dashboardPageExists
+              );
+              if (notFoundPageExists && dashboardPageExists) {
+                notFoundPageId = notFoundPageExists[0].id;
+                dashboardPageId = dashboardPageExists[0].id;
+                // call the register hosted script api
+                registerScript(siteId, function (registered_scripts) {
+                  let pageIds = [notFoundPageId, dashboardPageId];
+                  console.log("PageIds", pageIds);
+                  console.log("registerScript ID ARRAY", registered_scripts);
+                  for (let i = 0; i < pageIds.length; i++) {
+                    addCustomCodeToPage(pageIds[i], registered_scripts[i]);
+                  }
+                });
+              } else {
+                return false;
+              }
+            }
+          );
 
           collectionId = result[0].id;
           // get the collection items
@@ -139,6 +162,132 @@ $(document).ready(function () {
       },
       error: function (xhr, status, error) {
         console.error("Error:", error);
+      },
+    });
+  }
+
+  function registerScript(siteId, callback) {
+    console.log("registerScript function called");
+
+    // Define an array with the desired hosted locations
+    const hostedLocations = [
+      {
+        url: "https://myid.app/pixl/404.js",
+        integrityHash: "sha256-sb0WwV597LSX0WLMRSTOdsOyflUak4ihbzfDXfoYE7w=",
+        version: "1.0.0",
+        displayName: "404Script",
+      },
+      {
+        url: "https://myid.app/pixl/getRedirects.js",
+        integrityHash: "sha256-cKVJi8mXv8ymQZub0VzSqSA9YYWMD22gXwhie2LwPHM=",
+        version: "1.0.0",
+        displayName: "RedirectScript",
+      },
+    ];
+
+    // Keep track of successful responses
+    const successfulResponses = [];
+
+    // Iterate over the hosted locations array
+    for (let i = 0; i < hostedLocations.length; i++) {
+      registerScriptData = {
+        canCopy: true,
+        hostedLocation: hostedLocations[i].url,
+        integrityHash: hostedLocations[i].integrityHash,
+        version: hostedLocations[i].version,
+        displayName: hostedLocations[i].displayName,
+      };
+
+      let data = {
+        endPoint: "sites/" + siteId + "/registered_scripts/hosted",
+        method: "POST",
+        params: JSON.stringify(registerScriptData),
+      };
+      $.ajax({
+        url: appURL + "CallApi.php",
+        type: "POST",
+        data: data,
+        success: function (response) {
+          console.log("script register response", response);
+          // Save the id in the array for further processing
+          successfulResponses.push(response);
+          if (successfulResponses.length === hostedLocations.length) {
+            callback(successfulResponses);
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error("Error:", error);
+        },
+      });
+    }
+  }
+
+  function listSitePages(siteId, callback) {
+    console.log("listSitePages", siteId);
+
+    let data = {
+      endPoint: "sites/" + siteId + "/pages/",
+      method: "GET",
+    };
+
+    $.ajax({
+      url: appURL + "CallApi.php",
+      type: "GET",
+      data: data,
+      success: function (response) {
+        let notFoundPageSlugToCheck = "404";
+        let dashboardPageSlugToCheck = null;
+        let notFoundPageExists = $.grep(response.pages, function (obj) {
+          return obj.slug === notFoundPageSlugToCheck;
+        });
+        let dashboardPageExists = $.grep(response.pages, function (obj) {
+          return obj.slug === dashboardPageSlugToCheck;
+        });
+
+        console.log("dashboardPageExists", dashboardPageExists);
+
+        callback(notFoundPageExists, dashboardPageExists);
+
+        console.log("list of pages success", notFoundPageExists);
+      },
+      error: function (xhr, status, error) {
+        console.error("Error:", error);
+      },
+    });
+  }
+
+  function addCustomCodeToPage(pageId, registeredScript) {
+    if (registeredScript.code == "duplicate_registered_script") {
+      return false;
+    }
+    console.log("called", pageId, registeredScript);
+    addCustomCodeData = {
+      scripts: [
+        {
+          location: "footer",
+          id: registeredScript.id,
+          version: registeredScript.version,
+        },
+      ],
+    };
+
+    let data = {
+      endPoint: "pages/" + pageId + "/custom_code",
+      params: JSON.stringify(addCustomCodeData),
+      method: "PUT",
+    };
+
+    console.log("data", data);
+
+    $.ajax({
+      url: appURL + "CallApi.php",
+      type: "POST",
+      data: data,
+      success: function (response) {
+        console.log("Custom code added successfully:", response);
+      },
+      error: function (xhr, status, error) {
+        console.error("Error adding custom code:", error);
       },
     });
   }

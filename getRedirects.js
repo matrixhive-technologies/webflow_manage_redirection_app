@@ -1,5 +1,6 @@
 // Wait for the DOM to be fully loaded
 $(document).ready(function () {
+  console.log("get redirects script called");
   // Define a variable to hold your redirect data
   var redirects = [];
 

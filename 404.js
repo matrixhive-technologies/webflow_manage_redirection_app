@@ -1,3 +1,4 @@
+console.log('404 script injected');
 // Read a page's GET URL variables and return them as an associative array.
 function getUrlVars() {
   var vars = [],
