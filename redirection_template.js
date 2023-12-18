@@ -8,13 +8,12 @@ window.onload = function(){
 
             let pathName = window.location.pathname;
             let search = window.location.search;
-            alert(pathName);
+            
             let redirectMatch = redirects.find(function (redirect) {
                 return redirect.from === pathName;
             });
-            alert(redirectMatch);
             if (redirectMatch) {
-                window.location.href = redirectMatch.to + window.location.search;
+                window.location.href = redirectMatch.to + search;
             }
         });
 }
