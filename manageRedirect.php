@@ -43,7 +43,10 @@ require_once('config/app.php');
     <!-- Collection Editor -->
     <div class="container mt-3">
         <div class="d-flex justify-content-end mb-3">
-            <button class="btn btn-success add-collection-item" data-toggle="modal" data-target="#addItemModal" style="display: none;">Create Collection Item</button>
+            <div style="display:none" class="message_box" id="message_box" data-g_url=""> </div>
+            <button class="btn btn-generate add-collection-item" id="generate_js"   style="display: none;">Generate JS</button>
+            <button class="btn btn-success add-collection-item" data-toggle="modal" data-target="#addItemModal" style="display: none;">Create Rule</button>
+            
         </div>
         <span class="message text-center"></span>
         <table id="collectionEditor" class="display" style="width:100%">

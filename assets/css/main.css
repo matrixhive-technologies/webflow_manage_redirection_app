@@ -69,3 +69,24 @@ body {
   color: yellow;
   font-size: 16px; 
 }
+
+.btn-generate{
+  margin-left:5px;
+  margin-right:5px;
+  background-color:#3498db;
+  color: #fff;
+
+}
+#message_box { 
+  margin-right: 35px;
+  margin-top: 5px;
+}
+#generated_url {
+  color: rgb(239, 241, 204);
+  font-weight: bold;
+
+}
+
+#copy_url:hover{
+  color:aqua;
+}

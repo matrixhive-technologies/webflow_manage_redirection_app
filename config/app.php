@@ -1,6 +1,6 @@
 <?php
 
-define('ENV', 'asd_local');
+define('ENV', 'rp_local');
 
 if (ENV == 'asd_local') {
 
@@ -14,11 +14,10 @@ if (ENV == 'asd_local') {
 }
 
 if (ENV == 'rp_local') {
-
-    define('APP_URL', 'http://localhost:5173/andrew/webflow_collections_app/app');
-    define('HOME_PAGE_URL', 'http://localhost:5173/andrew/webflow_collections_app/');
-    define('CLIENT_ID', 'e6b54abd7bc636af7ccf60a0e10e52db35339d052cb90519b74eb40c87cedd50');
-    define('CLIENT_SECRET', 'a59c3b80f172447569e69aa4cb7463fb92ce593b6303237bf0ab8e7ef2429d49');
+    define('APP_URL', 'http://mycrypt.loc/webflow_redirection');
+    define('HOME_PAGE_URL', 'http://mycrypt.loc/webflow_redirection/manageRedirect.php');
+    define('CLIENT_ID', '6a6f41b771e4f3b681c6527ee0372324f6f110415a30a1bab62914d6712d6989');
+    define('CLIENT_SECRET', 'de24573cf03c4e2c690df6064fe425c60b429046cf7d934d6d204c689ea1b440');
 }
 
 if (ENV == 'prod') {
@@ -49,3 +48,5 @@ define('RESPONSE_TYPE', 'code');
 
 # Default Grant Type.
 define('GRANT_TYPE', 'authorization_code');
+
+define('BASE_PATH', __DIR__.'/../');

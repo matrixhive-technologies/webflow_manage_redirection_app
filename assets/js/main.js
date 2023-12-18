@@ -1,5 +1,6 @@
 // Access the appURL value from the data attribute
-var appURL = document.currentScript.getAttribute("data-appurl");
+var appURL = document.currentScript.getAttribute("data-appurl")+'/';
+
 
 $(document).ready(function () {
   window.setInterval(function () {
@@ -7,7 +8,7 @@ $(document).ready(function () {
       url: appURL + "persist.php",
       type: "POST",
       success: function (data) {
-        console.log(data);
+        
       },
       error: function (xhr, status, error) {
         console.error("Error:", error);
@@ -93,24 +94,7 @@ $(document).ready(function () {
   $("#selectSite").on("change", function () {
     siteId = $(this).val();
     $(".add-collection-item").css("display", "block");
-    listSitePages(siteId, function (notFoundPageExists, dashboardPageExists) {
-      console.log("dashboardPageExists from list page", dashboardPageExists);
-      if (notFoundPageExists && dashboardPageExists) {
-        notFoundPageId = notFoundPageExists[0].id;
-        dashboardPageId = dashboardPageExists[0].id;
-        // call the register hosted script api
-        registerScript(siteId, function (registered_scripts) {
-          let pageIds = [notFoundPageId, dashboardPageId];
-          console.log("PageIds", pageIds);
-          console.log("registerScript ID ARRAY", registered_scripts);
-          for (let i = 0; i < pageIds.length; i++) {
-            addCustomCodeToPage(pageIds[i], registered_scripts[i]);
-          }
-        });
-      } else {
-        return false;
-      }
-    });
+   
     getCollection(siteId);
   });
 
@@ -495,4 +479,37 @@ $(document).ready(function () {
     $("#addItemForm")[0].reset();
     $(".validation-message").text("");
   });
+
+
+  $('#generate_js').on('click', function(){
+      $('#message_box').html('');
+      $('#message_box').hide();
+      let copyButton = '<svg id="copy_url" onclick="copyUrl()" style="cursor:pointer" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M7 15h0a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3h9a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h0"></path></svg>';
+      $.get(appURL+'generate_js.php?sid='+$("#selectSite").val()+'&cid='+collectionId, function(data){
+       
+        if(data.generated_js){
+          $('#message_box').html('Generated Js: <span id="generated_url">'+data.generated_js+'</span> '+copyButton);
+          $('#message_box').show();
+          //navigator.clipboard.writeText(data.generated_js);
+        } else {
+          $('#message_box').html(data.message);
+        }
+      });
+  })
+
+  
+  
+
 });
+
+function copyUrl(){
+  if($('#generated_url').length > 0){
+      let url = $('#generated_url').html().trim();
+    if(navigator.clipboard) {
+      navigator.clipboard.writeText(url);
+      alert("url is copied");
+    } else {
+      alert(url);
+    }
+  }
+}
